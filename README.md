@@ -11,8 +11,6 @@ From the confusion matrix:
 
 ![alt tag](https://snag.gy/xGuAoE.jpg)
 
-It can be seen that out of the 30 iris flower testing dataset the model only misclassified 4 flowers. 
-
 Here is the final classification matrix:
 
 ![alt tag](https://snag.gy/oqZ87j.jpg)
