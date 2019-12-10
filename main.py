@@ -4,12 +4,23 @@ import time
 
 #create flask app
 app = Flask(__name__)
+#create database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///irisFlowerCollection.db'
+db = SQLAlchemy(app)
 
 #---------------------MODEL---------------------#
 import IrisModel
 
 clf, classes = IrisModel.irisFlowerModel()
 
+#---------------------DATABASE CLASSES---------------------#
+class FlowerInstance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sepal_length = db.Column(db.Integer)
+    sepal_width = db.Column(db.Integer)
+    petal_length = db.Column(db.Integer)
+    petal_width = db.Column(db.Integer)
+    species = db.Column(db.String(80))
 
 #---------------------API ROUTES---------------------#
 
@@ -25,6 +36,7 @@ def makePrediction(sepal_length,sepal_width,petal_length,petal_width):
 
     item = np.array([sepal_length, sepal_width, petal_length, petal_width], dtype=float).reshape(1,-1)
     score = clf.predict(item)
+    print(score)
     results = (classes[score[0] == 1])[0]
     
     return results
@@ -57,12 +69,23 @@ def predict():
                 #predict after parsing the data
                 irisClass = makePrediction(sepal_length,sepal_width,petal_length,petal_width)
 
-                print(irisClass)
-                time.sleep(0.1)
+                #create new flower
+                newFlower = FlowerInstance(
+                sepal_length=sepal_length,
+                sepal_width=sepal_width,
+                petal_length=petal_length,
+                petal_width=petal_width,
+                species=irisClass)
+     
+                #add new flower to the database
+                db.session.add(newFlower)
+                # #commit changes to database
+                db.session.commit()
 
                 #redirect back to the same page 
                 return redirect(request.url)
 
+    #load page if no post request but have navigated to page
     return render_template("predict.html")
     
 
