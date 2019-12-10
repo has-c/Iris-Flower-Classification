@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Predict</title>
+    </head>
+
+    <body>
+
+        {% extends "template.html" %}
+        {% block content %}
+
+        <h1>Add parameters to predict</h1>
+        
+        <!-- Input form for Iris Flower Information-->
+        <form action="{{ url_for('predict') }}" method="POST">
+            <fieldset>
+                <legend>Iris Flower Information</legend>
+                <!-- Flower input fields-->
+                Sepal Length:<br>
+                <input type="text" name="sepal_length"><br>
+                Sepal Width:<br>
+                <input type="text" name="sepal_width"><br>
+                Petal Length:<br>
+                <input type="text" name="petal_length"><br>
+                Petal Width:<br> 
+                <input type="text" name="petal_width"><br>
+                <!-- Submit button -->
+                <input type="submit" value="Submit">    
+            </fieldset>
+        </form>
+
+        {% if missingInformation %}
+        <p class="test-danger float-right">{{ missingInformation }}</p>
+        {% endif %}
+
+        {% endblock %}
+    </body>
+</html>
+

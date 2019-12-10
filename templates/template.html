@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+ <head>
+   <meta charset="utf-8">
+   <title>Flask Parent Template</title>
+
+ </head>
+ <body>
+    <header>
+        <ul>
+        <!-- url_for() allows us to provide dynamic links to the home and about pages-->
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('predict') }}">Predict</a></li>
+        </ul>
+    </header>
+    
+    {% block content %}
+    {% endblock %}
+    
+ </body>
+</html>
